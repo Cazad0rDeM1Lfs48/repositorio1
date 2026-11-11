@@ -1,0 +1,13 @@
+hostname: R1-Core
+domain_name: lab.local
+interfaces:
+  - name: GigabitEthernet2
+    description: Enlace hacia Switch Acceso
+    ip_address: 192.168.10.1
+    netmask: 255.255.255.0
+    enabled: true
+  - name: Loopback300
+    description: Interfaz de Gestión Loopback
+    ip_address: 10.300.1.1
+    netmask: 255.255.255.255
+    enabled: true

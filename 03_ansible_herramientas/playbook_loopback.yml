@@ -1,0 +1,28 @@
+---
+- name: Aprovisionamiento de Interfaz Loopback en Cisco IOS-XE
+  hosts: cisco_routers
+  gather_facts: false
+
+  tasks:
+    - name: Consultar la versión de IOS-XE
+      cisco.ios.ios_command:
+        commands:
+          - show version | include Version
+      register: version_output
+
+    - name: Imprimir la versión obtenida
+      ansible.builtin.debug:
+        msg: "La versión del equipo es: {{ version_output.stdout[0] }}"
+
+    - name: Configurar Interfaz Loopback200 de forma idempotente
+      cisco.ios.ios_config:
+        lines:
+          - description Creada y Gestionada por Ansible
+          - ip address 10.200.200.1 255.255.255.255
+          - no shutdown
+        parents: interface Loopback200
+      register: config_result
+
+    - name: Notificar cambio aplicado
+      ansible.builtin.debug:
+        msg: "Estado del cambio en la interfaz: {{ config_result.changed }}"

@@ -1,0 +1,14 @@
+hostname {{ hostname }}
+ip domain name {{ domain_name }}
+!
+{% for iface in interfaces %}
+interface {{ iface.name }}
+ description {{ iface.description }}
+ {% if iface.enabled %}
+ ip address {{ iface.ip_address }} {{ iface.netmask }}
+ no shutdown
+ {% else %}
+ shutdown
+ {% endif %}
+!
+{% endfor %}
